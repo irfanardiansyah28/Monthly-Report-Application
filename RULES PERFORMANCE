@@ -1,0 +1,1140 @@
+Sub RUNRULESPERFORMANCE()
+    Call AFMFalsePositiveRate
+    Call AFMFalsePositiveRateNOTFRAUD
+    Call AFMFalsePositiveFRAUD
+
+    MsgBox "Done Ya, Thank you!!!"
+End Sub
+Sub AFMFalsePositiveRate()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("RULE")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "G").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 7).Value
+            product = sourcesheet.Cells(i, 6).Value
+            status = sourcesheet.Cells(i, 21).Value
+
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "PR_PhoneNumberMatchFraudFile_"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "PR_CBM_VidCallReject"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "PR_NikMatchFraudFile"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "PR_Email_Match_FraudFile"
+                            othercount = othercount + 1
+                            
+                        Case "PR_SameMobileNumberDifferentNIK"
+                            alterdcount = alterdcount + 1
+                            
+                        Case "PR_CBM_Verihubs"
+                            ficticount = ficticount + 1
+                            
+                        Case "PR_SameMobileDiffDomicile"
+                            aasss = aasss + 1
+                            
+                        Case "PR_SameDomicileAddressEmployerAddressNotSelfEmployed"
+                            sss = aass + 1
+                            
+                        Case "PR_PL_OnlineShop_"
+                            ddaas = ddaas + 1
+                            
+                        Case "PR_MoreThan10AppsFromSameSubDistrictIn3Days"
+                            jkhjkh = jkhjkh + 1
+                            
+                        Case "PR_GR_EmailKeyword_"
+                            uytyug = uytyug + 1
+                        
+                        Case "PR_CBM_Email_RejectedList_"
+                            kkhlghj = kkhlghj + 1
+                            
+                        Case "PR_SameMobileDiffDomicile_"
+                            hjghjg = hjghjg + 1
+                        
+                        Case "PR_CBM_Email_RejectedList"
+                            yuyuakl = yuyuakl + 1
+                            
+                        Case "PR_SameMobileNumberDifferentNIK_eKiosk"
+                            lkajdlh = lkajdlh + 1
+                            
+                        Case "PR_CBM_Phone_RejectedList_"
+                            tyrtuauy = tyrtuauy + 1
+                            
+                        Case "PR_NikMatchFraudFile_"
+                            jkagkg = jkagkg + 1
+                            
+                        Case "PR_Mortgage_BureauAgeSalary"
+                            jhgauytyg = jhgauytyg + 1
+                            
+                        Case "PR_RefferalCodeSameDistrict"
+                            jhaygjhgkjda = jhaygjhgkjda + 1
+                            
+                        Case "PR_NIKMatchesToSuspiciousNIKHotlist_"
+                            jhaggw = jhaggw + 1
+                            
+                        Case "PR_SameNIKORTaxIDORPhoneNumberOREmailMatchLOSWhitelist"
+                            ajkgtigkj = ajkgtigkj + 1
+                            
+                            
+                        Case "PR_Email_Match_FraudFile_"
+                            ahjfuqhghjb = ahjfuqhghjb + 1
+                            
+                        Case "PR_CBM_Phone_RejectedList"
+                            hjaghjghja = hjaghjghja + 1
+                            
+                        Case "PR_PhoneNumberMatchFraudFile"
+                            quhuihjkjk = quhuihjkjk + 1
+                            
+                        Case "PR_HighRiskGeolocation"
+                            atytkjhjk = atytkjhjk + 1
+                            
+                        Case "PR_PL_MoreThan2SameDeviceIDDiffNIK_"
+                            quihjkbjk = quihjkbjk + 1
+                            
+                        Case "PR_GLoan_FirstBureauAge"
+                            lahjhjkh = lahjhjkh + 1
+                            
+                        Case "PR_EmailMatchesToSuspiciousEmailHotlist_"
+                            qtyetgbkkln = qtyetgbkkln + 1
+                            
+                        Case "FinalFraudDecision"
+                            yguyghgjh = yguyghgjh + 1
+                            
+                        Case "PR_GLoan_AgeAndBureauAge"
+                            ghakghbk = ghakghbk + 1
+                            
+                        Case "PR_CBM_MoreThan2SameDeviceIDDiffNIK"
+                            kljaljdbbch = kljaljdbbch + 1
+                            
+                        Case "PR_CBM_DeviceMatchesToSuspiciousDeviceHotlist"
+                            akjhuyuiwhh = akjhuyuiwhh + 1
+                            
+                        Case "PR_SameCompanyPhoneDiffCompanyNameDiffLOB"
+                            kluiouioqh = kluiouioqh + 1
+                            
+                        Case "PR_EmailMatchesToSuspiciousEmailHotlist"
+                            quiiuhkjsjk = quiiuhkjsjk + 1
+                            
+                        Case "PR_CBMRejectedListDeviceID_"
+                            iqhuihkjjnkjn = iqhuihkjjnkjn + 1
+                            
+                        Case "PR_SameNIKdiffDomicile_"
+                            oiahkjbwjkhjk = oiahkjbwjkhjk + 1
+                            
+                        Case "PR_LOS_ApplicantDukcapil"
+                            poqiiuhjhd = poqiiuhjhd + 1
+                            
+                        Case "PR_DomAddress6FirstCharsNIK"
+                            ajkkjbkw = ajkkjbkw + 1
+                            
+                        Case "PR_DomAddress6FirstCharsNIK_"
+                            auiyuihjkjkw = auiyuihjkjkw + 1
+                            
+                        Case "PR_Generic_SameNIKDiffDOBorPOBandPhoneorEmail"
+                            ajhjhgd = ajhjhgd + 1
+                            
+                        Case "PR_MobilePhonenumberProvidedByApplicantMatchesToSuspiciousMobileHotlist"
+                            iuakhjkhd = iuakhjkhd + 1
+                            
+                        Case "PR_SameNIKdiffIDaddress"
+                            pokadkhghf = pokadkhghf + 1
+                            
+                        Case "PR_SameEmailDifferentNIK"
+                            ajhjkbcbhjkhs = ajhjkbcbhjkhs + 1
+                            
+                        Case "PR_Generic_SameNIKDiffDOBorPOBandPhoneorEmail_"
+                            aykhkjd = aykhkjd + 1
+                            
+                        Case "PR_Ekiosk_ManualEKTP"
+                            aiooihehd = aiooihehd + 1
+                            
+                        Case "PR_SameNIKdiffIDaddress_"
+                            iuahjkhkjd = iuahjkhkjd + 1
+                            
+                        Case "PR_ReferralCodeSameCity"
+                            akjgdjkbbcjld = akjgdjkbbcjld + 1
+                            
+                        Case "PR_MoreThan4SameEmployerAddressAndEmployerName7days_"
+                            alnncbvfj = alnncbvfj + 1
+                            
+                        Case "PR_SameNIKdiffDomicile"
+                            akllklcnbd = akllklcnbd + 1
+                            
+                        Case "PR_NIKMatchesToSuspiciousNIKHotlist"
+                            ajkdhkjbcbhd = ajkdhkjbcbhd + 1
+                            
+                        Case "PR_Paylater_deviceIDHotlist"
+                            cbbmcvjkhd = cbbmcvjkhd + 1
+                            
+                        Case "PR_Paylater_deviceIDHotlist_"
+                            ahjjcbd = ahjjcbd + 1
+                            
+                        Case "PR_CBM_Dukcapil_Refer_Test"
+                            akhkqjhjkhdbc = akhkqjhjkhdbc + 1
+                            
+                        Case "PR_CBM_DukcapilApplicant_Refer"
+                            alkkjbckbjhd = alkkjbckbjhd + 1
+                            
+                        Case "PR_GR_EmailKeyword"
+                            alkhlhywybef = alkhlhywybef + 1
+                            
+                        Case "PR_MobilePhonenumberProvidedByApplicantMatchesToSuspiciousMobileHotlist_"
+                            akjhjkdhjkhjkbd = akjhjkdhjkhjkbd + 1
+                            
+                        Case "PR_CBM_SameDeviceDiffNIK"
+                            qhjhjdhhf = qhjhjdhhf + 1
+                            
+                        Case "PR_SameNIKdiffIDaddress_eKiosk"
+                            apkknnf = apkknnf + 1
+                            
+                        Case "PR_Mortgage_SameNIKdiffDependants"
+                            qhhjbckds = qhhjbckds + 1
+                            
+                        Case "PR_MoreThan4SameEmployerAddressAndEmployerName7days"
+                            aklhhwjkbkjdc = aklhhwjkbkjdc + 1
+                            
+                        Case "PR_CBM_DukcapilNotFound"
+                            alhjbjkcbjkhd = alhjbjkcbjkhd + 1
+                            
+                        Case "PR_CBM_DukcapilScoreReject"
+                            aklhyetggd = aklhyetggd + 1
+                            
+                        Case "PR_TaxIDMatchFraudFile"
+                            alkhlbcbchghds = alkhlbcbchghds + 1
+                            
+                        Case "PR_AddressOccupationHotlist"
+                            ajhjkbcbggd = ajhjkbcbggd + 1
+                            
+                        Case "PR_HighRiskEmployerName"
+                            akhhlcbhlhld = akhhlcbhlhld + 1
+                            
+                        Case "PR_SameNIKButDeviationInSalaryGreaterThan30PercentWithin90days"
+                            akjhbcbgkjgd = akjhbcbgkjgd + 1
+                            
+                        Case "PR_TaxIDFoundinHotlist"
+                            aklbbcjhlhld = aklbbcjhlhld + 1
+                            
+                        Case "PR_EmployerNameMatchesWithFraudFile"
+                            abkcbvvdhklhs = abkcbvvdhklhs + 1
+                            
+                        Case "PR_EmployerAddressMatchesWithFraudFile"
+                            alkbbvcvhd = alkbbvcvhd + 1
+                            
+                        Case "PR_PL_OnlineShop"
+                            ppakjkhdhhf = ppakjkhdhhf + 1
+                            
+                        Case "PR_PL_MoreThan2SameDeviceIDDiffNIK"
+                            albcjgjkgjkfhf = albcjgjkgjkfhf + 1
+                            
+                        Case "PR_LOS_ValuerHotlist"
+                            abcbbkjhkjdh = abcbbkjhkjdh + 1
+                            
+                        Case "PR_GLoan_AgeAndNumberOfFacilities"
+                            bbxbbcvd = bbxbbcvd + 1
+                            
+                        Case "PR_GLoan_AgeAndActiveFacilities"
+                            mmznxggd = mmznxggd + 1
+                            
+                        Case "PR_GLoan_BurAgeNoOfFacilities"
+                            qoiihoudugf = qoiihoudugf + 1
+                            
+                        Case "PR_GLoan_RecentlyOpenedFacilities"
+                            agkjbjkbcggkd = agkjbjkbcggkd + 1
+                            
+                        Case "PR_GLoan_AgeBureauAgeLimit"
+                            abbxvvcgfdhh = abbxvvcgfdhh + 1
+                    End Select
+                End If
+        Next i
+        
+        destsheet.Range("M7").Value = cbmcount
+        destsheet.Range("M8").Value = ekioskcount
+        destsheet.Range("M9").Value = loskprcount
+        destsheet.Range("M10").Value = othercount
+        destsheet.Range("M11").Value = alterdcount
+        destsheet.Range("M12").Value = ficticount
+        destsheet.Range("M13").Value = aasss
+        destsheet.Range("M14").Value = sss
+        destsheet.Range("M15").Value = ddaas
+        destsheet.Range("M16").Value = jkhjkh
+        destsheet.Range("M17").Value = uytyug
+        destsheet.Range("M18").Value = kkhlghj
+        destsheet.Range("M19").Value = hjghjg
+        destsheet.Range("M20").Value = yuyuakl
+        destsheet.Range("M21").Value = lkajdlh
+        destsheet.Range("M22").Value = tyrtuauy
+        destsheet.Range("M23").Value = jkagkg
+        destsheet.Range("M24").Value = jhgauytyg
+        destsheet.Range("M25").Value = jhaygjhgkjda
+        destsheet.Range("M26").Value = jhaggw
+        destsheet.Range("M27").Value = ajkgtigkj
+        destsheet.Range("M28").Value = ahjfuqhghjb
+        destsheet.Range("M29").Value = hjaghjghja
+        destsheet.Range("M30").Value = quhuihjkjk
+        destsheet.Range("M31").Value = atytkjhjk
+        destsheet.Range("M32").Value = quihjkbjk
+        destsheet.Range("M33").Value = lahjhjkh
+        destsheet.Range("M34").Value = qtyetgbkkln
+        destsheet.Range("M35").Value = yguyghgjh
+        destsheet.Range("M36").Value = ghakghbk
+        destsheet.Range("M37").Value = kljaljdbbch
+        destsheet.Range("M38").Value = akjhuyuiwhh
+        destsheet.Range("M39").Value = kluiouioqh
+        destsheet.Range("M40").Value = quiiuhkjsjk
+        destsheet.Range("M41").Value = iqhuihkjjnkj
+        destsheet.Range("M42").Value = oiahkjbwjkhjk
+        destsheet.Range("M43").Value = poqiiuhjhd
+        destsheet.Range("M44").Value = ajkkjbkw
+        destsheet.Range("M45").Value = auiyuihjkjkw
+        destsheet.Range("M46").Value = ajhjhgd
+        destsheet.Range("M47").Value = iuakhjkhd
+        destsheet.Range("M48").Value = pokadkhghf
+        destsheet.Range("M49").Value = ajhjkbcbhjkhs
+        destsheet.Range("M50").Value = aykhkjd
+        destsheet.Range("M51").Value = aiooihehd
+        destsheet.Range("M52").Value = iuahjkhkjd
+        destsheet.Range("M53").Value = akjgdjkbbcjld
+        destsheet.Range("M54").Value = alnncbvfj
+        destsheet.Range("M55").Value = akllklcnbd
+        destsheet.Range("M56").Value = ajkdhkjbcbhd
+        destsheet.Range("M57").Value = cbbmcvjkhd
+        destsheet.Range("M58").Value = ahjjcbd
+        destsheet.Range("M59").Value = akhkqjhjkhdbc
+        destsheet.Range("M60").Value = alkkjbckbjhd
+        destsheet.Range("M61").Value = alkhlhywybef
+        destsheet.Range("M62").Value = akjhjkdhjkhjkbd
+        destsheet.Range("M63").Value = qhjhjdhhf
+        destsheet.Range("M64").Value = apkknnf
+        destsheet.Range("M65").Value = qhhjbckds
+        destsheet.Range("M66").Value = aklhhwjkbkjdc
+        destsheet.Range("M67").Value = alhjbjkcbjkhd
+        destsheet.Range("M68").Value = aklhyetggd
+        destsheet.Range("M69").Value = alkhlbcbchghds
+        destsheet.Range("M70").Value = ajhjkbcbggd
+        destsheet.Range("M71").Value = akhhlcbhlhld
+        destsheet.Range("M72").Value = akjhbcbgkjgd
+        destsheet.Range("M73").Value = aklbbcjhlhld
+        destsheet.Range("M74").Value = abkcbvvdhklhs
+        destsheet.Range("M75").Value = alkbbvcvhd
+        destsheet.Range("M76").Value = ppakjkhdhhf
+        destsheet.Range("M77").Value = albcjgjkgjkfhf
+        destsheet.Range("M78").Value = abcbbkjhkjdh
+        destsheet.Range("M79").Value = bbxbbcvd
+        destsheet.Range("M80").Value = mmznxggd
+        destsheet.Range("M81").Value = qoiihoudugf
+        destsheet.Range("M82").Value = agkjbjkbcggkd
+        destsheet.Range("M83").Value = abbxvvcgfdhh
+        
+        
+        
+        
+destsheet.Range("M127").Value = cbmcount
+destsheet.Range("M128").Value = ekioskcount
+destsheet.Range("M129").Value = loskprcount
+destsheet.Range("M130").Value = othercount
+destsheet.Range("M131").Value = alterdcount
+destsheet.Range("M132").Value = ficticount
+destsheet.Range("M133").Value = aasss
+destsheet.Range("M134").Value = sss
+destsheet.Range("M135").Value = ddaas
+destsheet.Range("M136").Value = jkhjkh
+destsheet.Range("M137").Value = uytyug
+destsheet.Range("M138").Value = kkhlghj
+destsheet.Range("M139").Value = hjghjg
+destsheet.Range("M140").Value = yuyuakl
+destsheet.Range("M141").Value = lkajdlh
+destsheet.Range("M142").Value = tyrtuauy
+destsheet.Range("M143").Value = jkagkg
+destsheet.Range("M144").Value = jhgauytyg
+destsheet.Range("M145").Value = jhaygjhgkjda
+destsheet.Range("M146").Value = jhaggw
+destsheet.Range("M147").Value = ajkgtigkj
+destsheet.Range("M148").Value = ahjfuqhghjb
+destsheet.Range("M149").Value = hjaghjghja
+destsheet.Range("M150").Value = quhuihjkjk
+destsheet.Range("M151").Value = atytkjhjk
+destsheet.Range("M152").Value = quihjkbjk
+destsheet.Range("M153").Value = lahjhjkh
+destsheet.Range("M154").Value = qtyetgbkkln
+destsheet.Range("M155").Value = yguyghgjh
+destsheet.Range("M156").Value = ghakghbk
+destsheet.Range("M157").Value = kljaljdbbch
+destsheet.Range("M158").Value = akjhuyuiwhh
+destsheet.Range("M159").Value = kluiouioqh
+destsheet.Range("M160").Value = quiiuhkjsjk
+destsheet.Range("M161").Value = iqhuihkjjnkj
+destsheet.Range("M162").Value = oiahkjbwjkhjk
+destsheet.Range("M163").Value = poqiiuhjhd
+destsheet.Range("M164").Value = ajkkjbkw
+destsheet.Range("M165").Value = auiyuihjkjkw
+destsheet.Range("M166").Value = ajhjhgd
+destsheet.Range("M167").Value = iuakhjkhd
+destsheet.Range("M168").Value = pokadkhghf
+destsheet.Range("M169").Value = ajhjkbcbhjkhs
+destsheet.Range("M170").Value = aykhkjd
+destsheet.Range("M171").Value = aiooihehd
+destsheet.Range("M172").Value = iuahjkhkjd
+destsheet.Range("M173").Value = akjgdjkbbcjld
+destsheet.Range("M174").Value = alnncbvfj
+destsheet.Range("M175").Value = akllklcnbd
+destsheet.Range("M176").Value = ajkdhkjbcbhd
+destsheet.Range("M177").Value = cbbmcvjkhd
+destsheet.Range("M178").Value = ahjjcbd
+destsheet.Range("M179").Value = akhkqjhjkhdbc
+destsheet.Range("M180").Value = alkkjbckbjhd
+destsheet.Range("M181").Value = alkhlhywybef
+destsheet.Range("M182").Value = akjhjkdhjkhjkbd
+destsheet.Range("M183").Value = qhjhjdhhf
+destsheet.Range("M184").Value = apkknnf
+destsheet.Range("M185").Value = qhhjbckds
+destsheet.Range("M186").Value = aklhhwjkbkjdc
+destsheet.Range("M187").Value = alhjbjkcbjkhd
+destsheet.Range("M188").Value = aklhyetggd
+destsheet.Range("M189").Value = alkhlbcbchghds
+destsheet.Range("M190").Value = ajhjkbcbggd
+destsheet.Range("M191").Value = akhhlcbhlhld
+destsheet.Range("M192").Value = akjhbcbgkjgd
+destsheet.Range("M193").Value = aklbbcjhlhld
+destsheet.Range("M194").Value = abkcbvvdhklhs
+destsheet.Range("M195").Value = alkbbvcvhd
+destsheet.Range("M196").Value = ppakjkhdhhf
+destsheet.Range("M197").Value = albcjgjkgjkfhf
+destsheet.Range("M198").Value = abcbbkjhkjdh
+destsheet.Range("M199").Value = bbxbbcvd
+destsheet.Range("M200").Value = mmznxggd
+destsheet.Range("M201").Value = qoiihoudugf
+destsheet.Range("M202").Value = agkjbjkbcggkd
+destsheet.Range("M203").Value = abbxvvcgfdhh
+
+End Sub
+
+Sub AFMFalsePositiveRateNOTFRAUD()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("RULE")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "G").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 7).Value
+            product = sourcesheet.Cells(i, 6).Value
+            status = sourcesheet.Cells(i, 21).Value
+            
+            If status = "NOT_FRAUD" Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "PR_PhoneNumberMatchFraudFile_"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "PR_CBM_VidCallReject"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "PR_NikMatchFraudFile"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "PR_Email_Match_FraudFile"
+                            othercount = othercount + 1
+                            
+                        Case "PR_SameMobileNumberDifferentNIK"
+                            alterdcount = alterdcount + 1
+                            
+                        Case "PR_CBM_Verihubs"
+                            ficticount = ficticount + 1
+                            
+                        Case "PR_SameMobileDiffDomicile"
+                            aasss = aasss + 1
+                            
+                        Case "PR_SameDomicileAddressEmployerAddressNotSelfEmployed"
+                            sss = aass + 1
+                            
+                        Case "PR_PL_OnlineShop_"
+                            ddaas = ddaas + 1
+                            
+                        Case "PR_MoreThan10AppsFromSameSubDistrictIn3Days"
+                            jkhjkh = jkhjkh + 1
+                            
+                        Case "PR_GR_EmailKeyword_"
+                            uytyug = uytyug + 1
+                        
+                        Case "PR_CBM_Email_RejectedList_"
+                            kkhlghj = kkhlghj + 1
+                            
+                        Case "PR_SameMobileDiffDomicile_"
+                            hjghjg = hjghjg + 1
+                        
+                        Case "PR_CBM_Email_RejectedList"
+                            yuyuakl = yuyuakl + 1
+                            
+                        Case "PR_SameMobileNumberDifferentNIK_eKiosk"
+                            lkajdlh = lkajdlh + 1
+                            
+                        Case "PR_CBM_Phone_RejectedList_"
+                            tyrtuauy = tyrtuauy + 1
+                            
+                        Case "PR_NikMatchFraudFile_"
+                            jkagkg = jkagkg + 1
+                            
+                        Case "PR_Mortgage_BureauAgeSalary"
+                            jhgauytyg = jhgauytyg + 1
+                            
+                        Case "PR_RefferalCodeSameDistrict"
+                            jhaygjhgkjda = jhaygjhgkjda + 1
+                            
+                        Case "PR_NIKMatchesToSuspiciousNIKHotlist_"
+                            jhaggw = jhaggw + 1
+                            
+                        Case "PR_SameNIKORTaxIDORPhoneNumberOREmailMatchLOSWhitelist"
+                            ajkgtigkj = ajkgtigkj + 1
+                            
+                            
+                        Case "PR_Email_Match_FraudFile_"
+                            ahjfuqhghjb = ahjfuqhghjb + 1
+                            
+                        Case "PR_CBM_Phone_RejectedList"
+                            hjaghjghja = hjaghjghja + 1
+                            
+                        Case "PR_PhoneNumberMatchFraudFile"
+                            quhuihjkjk = quhuihjkjk + 1
+                            
+                        Case "PR_HighRiskGeolocation"
+                            atytkjhjk = atytkjhjk + 1
+                            
+                        Case "PR_PL_MoreThan2SameDeviceIDDiffNIK_"
+                            quihjkbjk = quihjkbjk + 1
+                            
+                        Case "PR_GLoan_FirstBureauAge"
+                            lahjhjkh = lahjhjkh + 1
+                            
+                        Case "PR_EmailMatchesToSuspiciousEmailHotlist_"
+                            qtyetgbkkln = qtyetgbkkln + 1
+                            
+                        Case "FinalFraudDecision"
+                            yguyghgjh = yguyghgjh + 1
+                            
+                        Case "PR_GLoan_AgeAndBureauAge"
+                            ghakghbk = ghakghbk + 1
+                            
+                        Case "PR_CBM_MoreThan2SameDeviceIDDiffNIK"
+                            kljaljdbbch = kljaljdbbch + 1
+                            
+                        Case "PR_CBM_DeviceMatchesToSuspiciousDeviceHotlist"
+                            akjhuyuiwhh = akjhuyuiwhh + 1
+                            
+                        Case "PR_SameCompanyPhoneDiffCompanyNameDiffLOB"
+                            kluiouioqh = kluiouioqh + 1
+                            
+                        Case "PR_EmailMatchesToSuspiciousEmailHotlist"
+                            quiiuhkjsjk = quiiuhkjsjk + 1
+                            
+                        Case "PR_CBMRejectedListDeviceID_"
+                            iqhuihkjjnkjn = iqhuihkjjnkjn + 1
+                            
+                        Case "PR_SameNIKdiffDomicile_"
+                            oiahkjbwjkhjk = oiahkjbwjkhjk + 1
+                            
+                        Case "PR_LOS_ApplicantDukcapil"
+                            poqiiuhjhd = poqiiuhjhd + 1
+                            
+                        Case "PR_DomAddress6FirstCharsNIK"
+                            ajkkjbkw = ajkkjbkw + 1
+                            
+                        Case "PR_DomAddress6FirstCharsNIK_"
+                            auiyuihjkjkw = auiyuihjkjkw + 1
+                            
+                        Case "PR_Generic_SameNIKDiffDOBorPOBandPhoneorEmail"
+                            ajhjhgd = ajhjhgd + 1
+                            
+                        Case "PR_MobilePhonenumberProvidedByApplicantMatchesToSuspiciousMobileHotlist"
+                            iuakhjkhd = iuakhjkhd + 1
+                            
+                        Case "PR_SameNIKdiffIDaddress"
+                            pokadkhghf = pokadkhghf + 1
+                            
+                        Case "PR_SameEmailDifferentNIK"
+                            ajhjkbcbhjkhs = ajhjkbcbhjkhs + 1
+                            
+                        Case "PR_Generic_SameNIKDiffDOBorPOBandPhoneorEmail_"
+                            aykhkjd = aykhkjd + 1
+                            
+                        Case "PR_Ekiosk_ManualEKTP"
+                            aiooihehd = aiooihehd + 1
+                            
+                        Case "PR_SameNIKdiffIDaddress_"
+                            iuahjkhkjd = iuahjkhkjd + 1
+                            
+                        Case "PR_ReferralCodeSameCity"
+                            akjgdjkbbcjld = akjgdjkbbcjld + 1
+                            
+                        Case "PR_MoreThan4SameEmployerAddressAndEmployerName7days_"
+                            alnncbvfj = alnncbvfj + 1
+                            
+                        Case "PR_SameNIKdiffDomicile"
+                            akllklcnbd = akllklcnbd + 1
+                            
+                        Case "PR_NIKMatchesToSuspiciousNIKHotlist"
+                            ajkdhkjbcbhd = ajkdhkjbcbhd + 1
+                            
+                        Case "PR_Paylater_deviceIDHotlist"
+                            cbbmcvjkhd = cbbmcvjkhd + 1
+                            
+                        Case "PR_Paylater_deviceIDHotlist_"
+                            ahjjcbd = ahjjcbd + 1
+                            
+                        Case "PR_CBM_Dukcapil_Refer_Test"
+                            akhkqjhjkhdbc = akhkqjhjkhdbc + 1
+                            
+                        Case "PR_CBM_DukcapilApplicant_Refer"
+                            alkkjbckbjhd = alkkjbckbjhd + 1
+                            
+                        Case "PR_GR_EmailKeyword"
+                            alkhlhywybef = alkhlhywybef + 1
+                            
+                        Case "PR_MobilePhonenumberProvidedByApplicantMatchesToSuspiciousMobileHotlist_"
+                            akjhjkdhjkhjkbd = akjhjkdhjkhjkbd + 1
+                            
+                        Case "PR_CBM_SameDeviceDiffNIK"
+                            qhjhjdhhf = qhjhjdhhf + 1
+                            
+                        Case "PR_SameNIKdiffIDaddress_eKiosk"
+                            apkknnf = apkknnf + 1
+                            
+                        Case "PR_Mortgage_SameNIKdiffDependants"
+                            qhhjbckds = qhhjbckds + 1
+                            
+                        Case "PR_MoreThan4SameEmployerAddressAndEmployerName7days"
+                            aklhhwjkbkjdc = aklhhwjkbkjdc + 1
+                            
+                        Case "PR_CBM_DukcapilNotFound"
+                            alhjbjkcbjkhd = alhjbjkcbjkhd + 1
+                            
+                        Case "PR_CBM_DukcapilScoreReject"
+                            aklhyetggd = aklhyetggd + 1
+                            
+                        Case "PR_TaxIDMatchFraudFile"
+                            alkhlbcbchghds = alkhlbcbchghds + 1
+                            
+                        Case "PR_AddressOccupationHotlist"
+                            ajhjkbcbggd = ajhjkbcbggd + 1
+                            
+                        Case "PR_HighRiskEmployerName"
+                            akhhlcbhlhld = akhhlcbhlhld + 1
+                            
+                        Case "PR_SameNIKButDeviationInSalaryGreaterThan30PercentWithin90days"
+                            akjhbcbgkjgd = akjhbcbgkjgd + 1
+                            
+                        Case "PR_TaxIDFoundinHotlist"
+                            aklbbcjhlhld = aklbbcjhlhld + 1
+                            
+                        Case "PR_EmployerNameMatchesWithFraudFile"
+                            abkcbvvdhklhs = abkcbvvdhklhs + 1
+                            
+                        Case "PR_EmployerAddressMatchesWithFraudFile"
+                            alkbbvcvhd = alkbbvcvhd + 1
+                            
+                        Case "PR_PL_OnlineShop"
+                            ppakjkhdhhf = ppakjkhdhhf + 1
+                            
+                        Case "PR_PL_MoreThan2SameDeviceIDDiffNIK"
+                            albcjgjkgjkfhf = albcjgjkgjkfhf + 1
+                            
+                        Case "PR_LOS_ValuerHotlist"
+                            abcbbkjhkjdh = abcbbkjhkjdh + 1
+                            
+                        Case "PR_GLoan_AgeAndNumberOfFacilities"
+                            bbxbbcvd = bbxbbcvd + 1
+                            
+                        Case "PR_GLoan_AgeAndActiveFacilities"
+                            mmznxggd = mmznxggd + 1
+                            
+                        Case "PR_GLoan_BurAgeNoOfFacilities"
+                            qoiihoudugf = qoiihoudugf + 1
+                            
+                        Case "PR_GLoan_RecentlyOpenedFacilities"
+                            agkjbjkbcggkd = agkjbjkbcggkd + 1
+                            
+                        Case "PR_GLoan_AgeBureauAgeLimit"
+                            abbxvvcgfdhh = abbxvvcgfdhh + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+destsheet.Range("N7").Value = cbmcount
+destsheet.Range("N8").Value = ekioskcount
+destsheet.Range("N9").Value = loskprcount
+destsheet.Range("N10").Value = othercount
+destsheet.Range("N11").Value = alterdcount
+destsheet.Range("N12").Value = ficticount
+destsheet.Range("N13").Value = aasss
+destsheet.Range("N14").Value = sss
+destsheet.Range("N15").Value = ddaas
+destsheet.Range("N16").Value = jkhjkh
+destsheet.Range("N17").Value = uytyug
+destsheet.Range("N18").Value = kkhlghj
+destsheet.Range("N19").Value = hjghjg
+destsheet.Range("N20").Value = yuyuakl
+destsheet.Range("N21").Value = lkajdlh
+destsheet.Range("N22").Value = tyrtuauy
+destsheet.Range("N23").Value = jkagkg
+destsheet.Range("N24").Value = jhgauytyg
+destsheet.Range("N25").Value = jhaygjhgkjda
+destsheet.Range("N26").Value = jhaggw
+destsheet.Range("N27").Value = ajkgtigkj
+destsheet.Range("N28").Value = ahjfuqhghjb
+destsheet.Range("N29").Value = hjaghjghja
+destsheet.Range("N30").Value = quhuihjkjk
+destsheet.Range("N31").Value = atytkjhjk
+destsheet.Range("N32").Value = quihjkbjk
+destsheet.Range("N33").Value = lahjhjkh
+destsheet.Range("N34").Value = qtyetgbkkln
+destsheet.Range("N35").Value = yguyghgjh
+destsheet.Range("N36").Value = ghakghbk
+destsheet.Range("N37").Value = kljaljdbbch
+destsheet.Range("N38").Value = akjhuyuiwhh
+destsheet.Range("N39").Value = kluiouioqh
+destsheet.Range("N40").Value = quiiuhkjsjk
+destsheet.Range("N41").Value = iqhuihkjjnkj
+destsheet.Range("N42").Value = oiahkjbwjkhjk
+destsheet.Range("N43").Value = poqiiuhjhd
+destsheet.Range("N44").Value = ajkkjbkw
+destsheet.Range("N45").Value = auiyuihjkjkw
+destsheet.Range("N46").Value = ajhjhgd
+destsheet.Range("N47").Value = iuakhjkhd
+destsheet.Range("N48").Value = pokadkhghf
+destsheet.Range("N49").Value = ajhjkbcbhjkhs
+destsheet.Range("N50").Value = aykhkjd
+destsheet.Range("N51").Value = aiooihehd
+destsheet.Range("N52").Value = iuahjkhkjd
+destsheet.Range("N53").Value = akjgdjkbbcjld
+destsheet.Range("N54").Value = alnncbvfj
+destsheet.Range("N55").Value = akllklcnbd
+destsheet.Range("N56").Value = ajkdhkjbcbhd
+destsheet.Range("N57").Value = cbbmcvjkhd
+destsheet.Range("N58").Value = ahjjcbd
+destsheet.Range("N59").Value = akhkqjhjkhdbc
+destsheet.Range("N60").Value = alkkjbckbjhd
+destsheet.Range("N61").Value = alkhlhywybef
+destsheet.Range("N62").Value = akjhjkdhjkhjkbd
+destsheet.Range("N63").Value = qhjhjdhhf
+destsheet.Range("N64").Value = apkknnf
+destsheet.Range("N65").Value = qhhjbckds
+destsheet.Range("N66").Value = aklhhwjkbkjdc
+destsheet.Range("N67").Value = alhjbjkcbjkhd
+destsheet.Range("N68").Value = aklhyetggd
+destsheet.Range("N69").Value = alkhlbcbchghds
+destsheet.Range("N70").Value = ajhjkbcbggd
+destsheet.Range("N71").Value = akhhlcbhlhld
+destsheet.Range("N72").Value = akjhbcbgkjgd
+destsheet.Range("N73").Value = aklbbcjhlhld
+destsheet.Range("N74").Value = abkcbvvdhklhs
+destsheet.Range("N75").Value = alkbbvcvhd
+destsheet.Range("N76").Value = ppakjkhdhhf
+destsheet.Range("N77").Value = albcjgjkgjkfhf
+destsheet.Range("N78").Value = abcbbkjhkjdh
+destsheet.Range("N79").Value = bbxbbcvd
+destsheet.Range("N80").Value = mmznxggd
+destsheet.Range("N81").Value = qoiihoudugf
+destsheet.Range("N82").Value = agkjbjkbcggkd
+destsheet.Range("N83").Value = abbxvvcgfdhh
+
+End Sub
+
+
+Sub AFMFalsePositiveFRAUD()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("RULE")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "G").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 7).Value
+            product = sourcesheet.Cells(i, 6).Value
+            status = sourcesheet.Cells(i, 21).Value
+            
+            If status <> "NOT_FRAUD" And status <> "NULL" Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "PR_PhoneNumberMatchFraudFile_"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "PR_CBM_VidCallReject"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "PR_NikMatchFraudFile"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "PR_Email_Match_FraudFile"
+                            othercount = othercount + 1
+                            
+                        Case "PR_SameMobileNumberDifferentNIK"
+                            alterdcount = alterdcount + 1
+                            
+                        Case "PR_CBM_Verihubs"
+                            ficticount = ficticount + 1
+                            
+                        Case "PR_SameMobileDiffDomicile"
+                            aasss = aasss + 1
+                            
+                        Case "PR_SameDomicileAddressEmployerAddressNotSelfEmployed"
+                            sss = aass + 1
+                            
+                        Case "PR_PL_OnlineShop_"
+                            ddaas = ddaas + 1
+                            
+                        Case "PR_MoreThan10AppsFromSameSubDistrictIn3Days"
+                            jkhjkh = jkhjkh + 1
+                            
+                        Case "PR_GR_EmailKeyword_"
+                            uytyug = uytyug + 1
+                        
+                        Case "PR_CBM_Email_RejectedList_"
+                            kkhlghj = kkhlghj + 1
+                            
+                        Case "PR_SameMobileDiffDomicile_"
+                            hjghjg = hjghjg + 1
+                        
+                        Case "PR_CBM_Email_RejectedList"
+                            yuyuakl = yuyuakl + 1
+                            
+                        Case "PR_SameMobileNumberDifferentNIK_eKiosk"
+                            lkajdlh = lkajdlh + 1
+                            
+                        Case "PR_CBM_Phone_RejectedList_"
+                            tyrtuauy = tyrtuauy + 1
+                            
+                        Case "PR_NikMatchFraudFile_"
+                            jkagkg = jkagkg + 1
+                            
+                        Case "PR_Mortgage_BureauAgeSalary"
+                            jhgauytyg = jhgauytyg + 1
+                            
+                        Case "PR_RefferalCodeSameDistrict"
+                            jhaygjhgkjda = jhaygjhgkjda + 1
+                            
+                        Case "PR_NIKMatchesToSuspiciousNIKHotlist_"
+                            jhaggw = jhaggw + 1
+                            
+                        Case "PR_SameNIKORTaxIDORPhoneNumberOREmailMatchLOSWhitelist"
+                            ajkgtigkj = ajkgtigkj + 1
+                            
+                            
+                        Case "PR_Email_Match_FraudFile_"
+                            ahjfuqhghjb = ahjfuqhghjb + 1
+                            
+                        Case "PR_CBM_Phone_RejectedList"
+                            hjaghjghja = hjaghjghja + 1
+                            
+                        Case "PR_PhoneNumberMatchFraudFile"
+                            quhuihjkjk = quhuihjkjk + 1
+                            
+                        Case "PR_HighRiskGeolocation"
+                            atytkjhjk = atytkjhjk + 1
+                            
+                        Case "PR_PL_MoreThan2SameDeviceIDDiffNIK_"
+                            quihjkbjk = quihjkbjk + 1
+                            
+                        Case "PR_GLoan_FirstBureauAge"
+                            lahjhjkh = lahjhjkh + 1
+                            
+                        Case "PR_EmailMatchesToSuspiciousEmailHotlist_"
+                            qtyetgbkkln = qtyetgbkkln + 1
+                            
+                        Case "FinalFraudDecision"
+                            yguyghgjh = yguyghgjh + 1
+                            
+                        Case "PR_GLoan_AgeAndBureauAge"
+                            ghakghbk = ghakghbk + 1
+                            
+                        Case "PR_CBM_MoreThan2SameDeviceIDDiffNIK"
+                            kljaljdbbch = kljaljdbbch + 1
+                            
+                        Case "PR_CBM_DeviceMatchesToSuspiciousDeviceHotlist"
+                            akjhuyuiwhh = akjhuyuiwhh + 1
+                            
+                        Case "PR_SameCompanyPhoneDiffCompanyNameDiffLOB"
+                            kluiouioqh = kluiouioqh + 1
+                            
+                        Case "PR_EmailMatchesToSuspiciousEmailHotlist"
+                            quiiuhkjsjk = quiiuhkjsjk + 1
+                            
+                        Case "PR_CBMRejectedListDeviceID_"
+                            iqhuihkjjnkjn = iqhuihkjjnkjn + 1
+                            
+                        Case "PR_SameNIKdiffDomicile_"
+                            oiahkjbwjkhjk = oiahkjbwjkhjk + 1
+                            
+                        Case "PR_LOS_ApplicantDukcapil"
+                            poqiiuhjhd = poqiiuhjhd + 1
+                            
+                        Case "PR_DomAddress6FirstCharsNIK"
+                            ajkkjbkw = ajkkjbkw + 1
+                            
+                        Case "PR_DomAddress6FirstCharsNIK_"
+                            auiyuihjkjkw = auiyuihjkjkw + 1
+                            
+                        Case "PR_Generic_SameNIKDiffDOBorPOBandPhoneorEmail"
+                            ajhjhgd = ajhjhgd + 1
+                            
+                        Case "PR_MobilePhonenumberProvidedByApplicantMatchesToSuspiciousMobileHotlist"
+                            iuakhjkhd = iuakhjkhd + 1
+                            
+                        Case "PR_SameNIKdiffIDaddress"
+                            pokadkhghf = pokadkhghf + 1
+                            
+                        Case "PR_SameEmailDifferentNIK"
+                            ajhjkbcbhjkhs = ajhjkbcbhjkhs + 1
+                            
+                        Case "PR_Generic_SameNIKDiffDOBorPOBandPhoneorEmail_"
+                            aykhkjd = aykhkjd + 1
+                            
+                        Case "PR_Ekiosk_ManualEKTP"
+                            aiooihehd = aiooihehd + 1
+                            
+                        Case "PR_SameNIKdiffIDaddress_"
+                            iuahjkhkjd = iuahjkhkjd + 1
+                            
+                        Case "PR_ReferralCodeSameCity"
+                            akjgdjkbbcjld = akjgdjkbbcjld + 1
+                            
+                        Case "PR_MoreThan4SameEmployerAddressAndEmployerName7days_"
+                            alnncbvfj = alnncbvfj + 1
+                            
+                        Case "PR_SameNIKdiffDomicile"
+                            akllklcnbd = akllklcnbd + 1
+                            
+                        Case "PR_NIKMatchesToSuspiciousNIKHotlist"
+                            ajkdhkjbcbhd = ajkdhkjbcbhd + 1
+                            
+                        Case "PR_Paylater_deviceIDHotlist"
+                            cbbmcvjkhd = cbbmcvjkhd + 1
+                            
+                        Case "PR_Paylater_deviceIDHotlist_"
+                            ahjjcbd = ahjjcbd + 1
+                            
+                        Case "PR_CBM_Dukcapil_Refer_Test"
+                            akhkqjhjkhdbc = akhkqjhjkhdbc + 1
+                            
+                        Case "PR_CBM_DukcapilApplicant_Refer"
+                            alkkjbckbjhd = alkkjbckbjhd + 1
+                            
+                        Case "PR_GR_EmailKeyword"
+                            alkhlhywybef = alkhlhywybef + 1
+                            
+                        Case "PR_MobilePhonenumberProvidedByApplicantMatchesToSuspiciousMobileHotlist_"
+                            akjhjkdhjkhjkbd = akjhjkdhjkhjkbd + 1
+                            
+                        Case "PR_CBM_SameDeviceDiffNIK"
+                            qhjhjdhhf = qhjhjdhhf + 1
+                            
+                        Case "PR_SameNIKdiffIDaddress_eKiosk"
+                            apkknnf = apkknnf + 1
+                            
+                        Case "PR_Mortgage_SameNIKdiffDependants"
+                            qhhjbckds = qhhjbckds + 1
+                            
+                        Case "PR_MoreThan4SameEmployerAddressAndEmployerName7days"
+                            aklhhwjkbkjdc = aklhhwjkbkjdc + 1
+                            
+                        Case "PR_CBM_DukcapilNotFound"
+                            alhjbjkcbjkhd = alhjbjkcbjkhd + 1
+                            
+                        Case "PR_CBM_DukcapilScoreReject"
+                            aklhyetggd = aklhyetggd + 1
+                            
+                        Case "PR_TaxIDMatchFraudFile"
+                            alkhlbcbchghds = alkhlbcbchghds + 1
+                            
+                        Case "PR_AddressOccupationHotlist"
+                            ajhjkbcbggd = ajhjkbcbggd + 1
+                            
+                        Case "PR_HighRiskEmployerName"
+                            akhhlcbhlhld = akhhlcbhlhld + 1
+                            
+                        Case "PR_SameNIKButDeviationInSalaryGreaterThan30PercentWithin90days"
+                            akjhbcbgkjgd = akjhbcbgkjgd + 1
+                            
+                        Case "PR_TaxIDFoundinHotlist"
+                            aklbbcjhlhld = aklbbcjhlhld + 1
+                            
+                        Case "PR_EmployerNameMatchesWithFraudFile"
+                            abkcbvvdhklhs = abkcbvvdhklhs + 1
+                            
+                        Case "PR_EmployerAddressMatchesWithFraudFile"
+                            alkbbvcvhd = alkbbvcvhd + 1
+                            
+                        Case "PR_PL_OnlineShop"
+                            ppakjkhdhhf = ppakjkhdhhf + 1
+                            
+                        Case "PR_PL_MoreThan2SameDeviceIDDiffNIK"
+                            albcjgjkgjkfhf = albcjgjkgjkfhf + 1
+                            
+                        Case "PR_LOS_ValuerHotlist"
+                            abcbbkjhkjdh = abcbbkjhkjdh + 1
+                            
+                        Case "PR_GLoan_AgeAndNumberOfFacilities"
+                            bbxbbcvd = bbxbbcvd + 1
+                            
+                        Case "PR_GLoan_AgeAndActiveFacilities"
+                            mmznxggd = mmznxggd + 1
+                            
+                        Case "PR_GLoan_BurAgeNoOfFacilities"
+                            qoiihoudugf = qoiihoudugf + 1
+                            
+                        Case "PR_GLoan_RecentlyOpenedFacilities"
+                            agkjbjkbcggkd = agkjbjkbcggkd + 1
+                            
+                        Case "PR_GLoan_AgeBureauAgeLimit"
+                            abbxvvcgfdhh = abbxvvcgfdhh + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+destsheet.Range("N127").Value = cbmcount
+destsheet.Range("N128").Value = ekioskcount
+destsheet.Range("N129").Value = loskprcount
+destsheet.Range("N130").Value = othercount
+destsheet.Range("N131").Value = alterdcount
+destsheet.Range("N132").Value = ficticount
+destsheet.Range("N133").Value = aasss
+destsheet.Range("N134").Value = sss
+destsheet.Range("N135").Value = ddaas
+destsheet.Range("N136").Value = jkhjkh
+destsheet.Range("N137").Value = uytyug
+destsheet.Range("N138").Value = kkhlghj
+destsheet.Range("N139").Value = hjghjg
+destsheet.Range("N140").Value = yuyuakl
+destsheet.Range("N141").Value = lkajdlh
+destsheet.Range("N142").Value = tyrtuauy
+destsheet.Range("N143").Value = jkagkg
+destsheet.Range("N144").Value = jhgauytyg
+destsheet.Range("N145").Value = jhaygjhgkjda
+destsheet.Range("N146").Value = jhaggw
+destsheet.Range("N147").Value = ajkgtigkj
+destsheet.Range("N148").Value = ahjfuqhghjb
+destsheet.Range("N149").Value = hjaghjghja
+destsheet.Range("N150").Value = quhuihjkjk
+destsheet.Range("N151").Value = atytkjhjk
+destsheet.Range("N152").Value = quihjkbjk
+destsheet.Range("N153").Value = lahjhjkh
+destsheet.Range("N154").Value = qtyetgbkkln
+destsheet.Range("N155").Value = yguyghgjh
+destsheet.Range("N156").Value = ghakghbk
+destsheet.Range("N157").Value = kljaljdbbch
+destsheet.Range("N158").Value = akjhuyuiwhh
+destsheet.Range("N159").Value = kluiouioqh
+destsheet.Range("N160").Value = quiiuhkjsjk
+destsheet.Range("N161").Value = iqhuihkjjnkj
+destsheet.Range("N162").Value = oiahkjbwjkhjk
+destsheet.Range("N163").Value = poqiiuhjhd
+destsheet.Range("N164").Value = ajkkjbkw
+destsheet.Range("N165").Value = auiyuihjkjkw
+destsheet.Range("N166").Value = ajhjhgd
+destsheet.Range("N167").Value = iuakhjkhd
+destsheet.Range("N168").Value = pokadkhghf
+destsheet.Range("N169").Value = ajhjkbcbhjkhs
+destsheet.Range("N170").Value = aykhkjd
+destsheet.Range("N171").Value = aiooihehd
+destsheet.Range("N172").Value = iuahjkhkjd
+destsheet.Range("N173").Value = akjgdjkbbcjld
+destsheet.Range("N174").Value = alnncbvfj
+destsheet.Range("N175").Value = akllklcnbd
+destsheet.Range("N176").Value = ajkdhkjbcbhd
+destsheet.Range("N177").Value = cbbmcvjkhd
+destsheet.Range("N178").Value = ahjjcbd
+destsheet.Range("N179").Value = akhkqjhjkhdbc
+destsheet.Range("N180").Value = alkkjbckbjhd
+destsheet.Range("N181").Value = alkhlhywybef
+destsheet.Range("N182").Value = akjhjkdhjkhjkbd
+destsheet.Range("N183").Value = qhjhjdhhf
+destsheet.Range("N184").Value = apkknnf
+destsheet.Range("N185").Value = qhhjbckds
+destsheet.Range("N186").Value = aklhhwjkbkjdc
+destsheet.Range("N187").Value = alhjbjkcbjkhd
+destsheet.Range("N188").Value = aklhyetggd
+destsheet.Range("N189").Value = alkhlbcbchghds
+destsheet.Range("N190").Value = ajhjkbcbggd
+destsheet.Range("N191").Value = akhhlcbhlhld
+destsheet.Range("N192").Value = akjhbcbgkjgd
+destsheet.Range("N193").Value = aklbbcjhlhld
+destsheet.Range("N194").Value = abkcbvvdhklhs
+destsheet.Range("N195").Value = alkbbvcvhd
+destsheet.Range("N196").Value = ppakjkhdhhf
+destsheet.Range("N197").Value = albcjgjkgjkfhf
+destsheet.Range("N198").Value = abcbbkjhkjdh
+destsheet.Range("N199").Value = bbxbbcvd
+destsheet.Range("N200").Value = mmznxggd
+destsheet.Range("N201").Value = qoiihoudugf
+destsheet.Range("N202").Value = agkjbjkbcggkd
+destsheet.Range("N203").Value = abbxvvcgfdhh
+
+
+End Sub
+
+
+
