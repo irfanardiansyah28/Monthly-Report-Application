@@ -1,0 +1,138 @@
+Sub ClearDATA()
+'
+' ClearDATA Macro
+'
+
+'
+    Rows("5:300000").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.ClearContents
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    Selection.Borders(xlEdgeLeft).LineStyle = xlNone
+    Selection.Borders(xlEdgeTop).LineStyle = xlNone
+    Selection.Borders(xlEdgeBottom).LineStyle = xlNone
+    Selection.Borders(xlEdgeRight).LineStyle = xlNone
+    Selection.Borders(xlInsideVertical).LineStyle = xlNone
+    Selection.Borders(xlInsideHorizontal).LineStyle = xlNone
+End Sub
+Sub VIEWMODE()
+'
+' VIEWMODE Macro
+'
+
+'
+    Range("D:F,H:H,L:M").Select
+    Range("L1").Activate
+    ActiveWindow.ScrollColumn = 2
+    ActiveWindow.ScrollColumn = 3
+    ActiveWindow.ScrollColumn = 4
+    ActiveWindow.ScrollColumn = 6
+    ActiveWindow.ScrollColumn = 7
+    ActiveWindow.ScrollColumn = 8
+    ActiveWindow.ScrollColumn = 9
+    ActiveWindow.ScrollColumn = 10
+    ActiveWindow.ScrollColumn = 11
+    ActiveWindow.ScrollColumn = 12
+    ActiveWindow.ScrollColumn = 13
+    ActiveWindow.ScrollColumn = 15
+    ActiveWindow.ScrollColumn = 16
+    ActiveWindow.ScrollColumn = 18
+    ActiveWindow.ScrollColumn = 19
+    ActiveWindow.ScrollColumn = 20
+    ActiveWindow.ScrollColumn = 21
+    ActiveWindow.ScrollColumn = 22
+    ActiveWindow.ScrollColumn = 23
+    ActiveWindow.ScrollColumn = 24
+    ActiveWindow.ScrollColumn = 25
+    ActiveWindow.ScrollColumn = 26
+    ActiveWindow.ScrollColumn = 28
+    ActiveWindow.ScrollColumn = 29
+    ActiveWindow.ScrollColumn = 30
+    ActiveWindow.ScrollColumn = 31
+    ActiveWindow.ScrollColumn = 32
+    ActiveWindow.ScrollColumn = 33
+    ActiveWindow.ScrollColumn = 34
+    ActiveWindow.ScrollColumn = 35
+    ActiveWindow.ScrollColumn = 36
+    ActiveWindow.ScrollColumn = 37
+    ActiveWindow.ScrollColumn = 38
+    ActiveWindow.ScrollColumn = 39
+    ActiveWindow.ScrollColumn = 40
+    ActiveWindow.ScrollColumn = 41
+    ActiveWindow.ScrollColumn = 42
+    ActiveWindow.ScrollColumn = 43
+    ActiveWindow.ScrollColumn = 44
+    ActiveWindow.ScrollColumn = 45
+    ActiveWindow.ScrollColumn = 46
+    ActiveWindow.ScrollColumn = 47
+    ActiveWindow.ScrollColumn = 48
+    ActiveWindow.ScrollColumn = 49
+    ActiveWindow.ScrollColumn = 50
+    ActiveWindow.ScrollColumn = 51
+    ActiveWindow.ScrollColumn = 52
+    ActiveWindow.ScrollColumn = 53
+    ActiveWindow.ScrollColumn = 54
+    ActiveWindow.ScrollColumn = 55
+    ActiveWindow.ScrollColumn = 56
+    ActiveWindow.ScrollColumn = 57
+    ActiveWindow.ScrollColumn = 58
+    ActiveWindow.ScrollColumn = 59
+    ActiveWindow.ScrollColumn = 60
+    ActiveWindow.ScrollColumn = 61
+    ActiveWindow.ScrollColumn = 62
+    ActiveWindow.ScrollColumn = 63
+    Range("D:F,H:H,L:M,BT:BT").Select
+    Range("BT1").Activate
+    ActiveWindow.ScrollColumn = 64
+    ActiveWindow.ScrollColumn = 65
+    ActiveWindow.ScrollColumn = 66
+    ActiveWindow.ScrollColumn = 67
+    ActiveWindow.ScrollColumn = 68
+    ActiveWindow.ScrollColumn = 69
+    ActiveWindow.ScrollColumn = 70
+    ActiveWindow.ScrollColumn = 71
+    ActiveWindow.ScrollColumn = 72
+    ActiveWindow.ScrollColumn = 73
+    ActiveWindow.ScrollColumn = 74
+    ActiveWindow.ScrollColumn = 75
+    ActiveWindow.ScrollColumn = 76
+    ActiveWindow.ScrollColumn = 77
+    ActiveWindow.ScrollColumn = 78
+    ActiveWindow.ScrollColumn = 79
+    Range("D:F,H:H,L:M,BT:BT,CJ:CM").Select
+    Range("CJ1").Activate
+    ActiveWindow.SmallScroll ToRight:=1
+    Range("D:F,H:H,L:M,BT:BT,CJ:CM,CO:CP").Select
+    Range("CO1").Activate
+    Selection.EntireColumn.Hidden = True
+    ActiveWindow.ScrollColumn = 84
+    ActiveWindow.ScrollColumn = 83
+    ActiveWindow.ScrollColumn = 82
+    ActiveWindow.ScrollColumn = 80
+    ActiveWindow.ScrollColumn = 79
+    ActiveWindow.ScrollColumn = 78
+    ActiveWindow.ScrollColumn = 76
+    ActiveWindow.ScrollColumn = 71
+    ActiveWindow.ScrollColumn = 68
+    ActiveWindow.ScrollColumn = 65
+    ActiveWindow.ScrollColumn = 64
+    ActiveWindow.ScrollColumn = 59
+    ActiveWindow.ScrollColumn = 52
+    ActiveWindow.ScrollColumn = 47
+    ActiveWindow.ScrollColumn = 44
+    ActiveWindow.ScrollColumn = 33
+    ActiveWindow.ScrollColumn = 16
+    ActiveWindow.ScrollColumn = 1
+    Range("A4").Select
+End Sub
+Sub UNHIDE()
+'
+' UNHIDE Macro
+'
+
+'
+    Cells.Select
+    Selection.EntireColumn.Hidden = False
+    Range("A4").Select
+End Sub
