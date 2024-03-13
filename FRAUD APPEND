@@ -1,0 +1,32 @@
+Sub PindahDataFraud()
+    Dim wbmaster As Workbook
+    Dim wsmaster As Worksheet
+    Dim lastrowmaster As Long
+    Dim wbdestinasi As Workbook
+    Dim wsdestinasi As Worksheet
+    Dim lastrowdestinasi As Long
+    
+        Set wbmaster = Workbooks.Open("\\D8T-FSV-PP1\application fraud detection unit\AFM PERFORMANCE\Automation Report\Master Datamart\MASTER DATA.xlsx")
+        Set wsmaster = wbmaster.Sheets("APPLICATION")
+        
+        Set wbdestinasi = ThisWorkbook
+        Set wsdestinasi = wbdestinasi.Sheets("Fraud Append")
+        
+        lastrowmaster = wsmaster.Cells(wsmaster.Rows.Count, "A").End(xlUp).Row
+        lastrowdestinasi = wsdestinasi.Cells(wsdestinasi.Rows.Count, "A").End(xlUp).Row + 1
+        
+            For i = 1 To lastrowmaster
+            
+            cmcolumn = wsmaster.Cells(i, "CM").Value
+            
+        If wsmaster.Cells(i, 14).Value = "Not Reactivated" And wsmaster.Cells(i, 19).Value <> "NOT_FRAUD" And IsError(cmcolumn) Then
+        
+        wsmaster.Rows(i).Copy wsdestinasi.Rows(lastrowdestinasi)
+        lastrowdestinasi = lastrowdestinasi + 1
+        
+        End If
+        Next i
+        
+        wbmaster.Close savechanges:=False
+  
+End Sub
