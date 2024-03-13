@@ -1,0 +1,233 @@
+Sub AFMManualFraud()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 93).Value
+            status = sourcesheet.Cells(i, 19).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If status <> "NOT_FRAUD" And status <> "NULL" And status <> "SUSPICIOUS_DECLINE" And IsError(cpcolumn) Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "Adhoc Checking"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "Agent Notes"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "Blacklist"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "Dukcapil Score"
+                            lossmecount = lossmecount + 1
+                            
+                        Case "Duplication Device ID"
+                            dupdev = dupdev + 1
+                        
+                        Case "Face Deduplication"
+                            facedup = facedup + 1
+                        
+                        Case "Unusual VC attempts"
+                            unvc = unvc + 1
+                        
+                        Case "VCO Escalation"
+                            vcoesc = vcoesc + 1
+                        
+                        Case "Other"
+                            laennya = laennya + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("C26").Value = cbmcount
+        destsheet.Range("C27").Value = ekioskcount
+        destsheet.Range("C28").Value = loskprcount
+        destsheet.Range("C29").Value = lossmecount
+        destsheet.Range("C30").Value = dupdev
+        destsheet.Range("C31").Value = facedup
+        destsheet.Range("C32").Value = unvc
+        destsheet.Range("C33").Value = vcoesc
+        destsheet.Range("C34").Value = laennya
+        
+End Sub
+
+Sub AFMManualSuspicious()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 93).Value
+            status = sourcesheet.Cells(i, 19).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If status = "SUSPICIOUS_DECLINE" And IsError(cpcolumn) Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "Adhoc Checking"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "Agent Notes"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "Blacklist"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "Dukcapil Score"
+                            lossmecount = lossmecount + 1
+                            
+                        Case "Duplication Device ID"
+                            dupdev = dupdev + 1
+                        
+                        Case "Face Deduplication"
+                            facedup = facedup + 1
+                        
+                        Case "Unusual VC attempts"
+                            unvc = unvc + 1
+                        
+                        Case "VCO Escalation"
+                            vcoesc = vcoesc + 1
+                        
+                        Case "Other"
+                            laennya = laennya + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("D26").Value = cbmcount
+        destsheet.Range("D27").Value = ekioskcount
+        destsheet.Range("D28").Value = loskprcount
+        destsheet.Range("D29").Value = lossmecount
+        destsheet.Range("D30").Value = dupdev
+        destsheet.Range("D31").Value = facedup
+        destsheet.Range("D32").Value = unvc
+        destsheet.Range("D33").Value = vcoesc
+        destsheet.Range("D34").Value = laennya
+        
+End Sub
+
+Sub AFMManualNotFraud()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 93).Value
+            status = sourcesheet.Cells(i, 19).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If status = "NOT_FRAUD" And IsError(cpcolumn) Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "Adhoc Checking"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "Agent Notes"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "Blacklist"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "Dukcapil Score"
+                            lossmecount = lossmecount + 1
+                            
+                        Case "Duplication Device ID"
+                            dupdev = dupdev + 1
+                        
+                        Case "Face Deduplication"
+                            facedup = facedup + 1
+                        
+                        Case "Unusual VC attempts"
+                            unvc = unvc + 1
+                        
+                        Case "VCO Escalation"
+                            vcoesc = vcoesc + 1
+                        
+                        Case "Other"
+                            laennya = laennya + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("E26").Value = cbmcount
+        destsheet.Range("E27").Value = ekioskcount
+        destsheet.Range("E28").Value = loskprcount
+        destsheet.Range("E29").Value = lossmecount
+        destsheet.Range("E30").Value = dupdev
+        destsheet.Range("E31").Value = facedup
+        destsheet.Range("E32").Value = unvc
+        destsheet.Range("E33").Value = vcoesc
+        destsheet.Range("E34").Value = laennya
+        
+End Sub
