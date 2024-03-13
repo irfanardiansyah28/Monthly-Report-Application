@@ -1,0 +1,1348 @@
+Sub RUNFRAUDPERFORM()
+    Call ApplicationIn
+    Call ApplicationInExcludeVerihubs
+    Call TotalAlertAFM
+    Call TotalAlertExcludeVerihubs
+    Call TotalAlertAFMExcludeVerihubs
+    Call AutoDecline
+    Call AFMConfirmFraud
+    Call AFMConfirmFraudVictim
+    Call AFMConfirmCuspiciousDecline
+    Call AFMNotFraud
+    Call AFMConfirmFraudExcludeVerihubs
+    Call AFMConfirmFraudVictimExcludeVerihubs
+    Call AFMConfirmCuspiciousDeclineExcludeVerihubs
+    Call AFMNotFraudExcludeVerihubs
+    Call FraudRateTotalFraud
+    Call FraudRateTotalFraudExcludeVerihubs
+    Call SLAAllChannel
+    Call SLAAllChannelExcludeVerihubs
+    Call SLACBMChannel
+    Call SLACBMChannelExcVerihubs
+    Call SLAEkioskhannel
+    Call SLALOSMortgage
+    Call SLALOSSME
+    Call AFMManualFraud
+    Call AFMManualSuspicious
+    Call AFMManualNotFraud
+    MsgBox "Done Ya, Thank you!!!"
+End Sub
+Sub ApplicationIn()
+    Dim wssource As Worksheet
+    Dim wsresult As Worksheet
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim lastrow As Long
+    Dim i As Long
+    Dim uniquecaseid As Object
+    
+        Set wssource = ThisWorkbook.Sheets("APPLICATION")
+        Set wsresult = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = wssource.Cells(wssource.Rows.Count, "I").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+        
+        For i = 2 To lastrow
+            
+            caseid = wssource.Cells(i, 9).Value
+            product = wssource.Cells(i, 10).Value
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+        Next i
+        
+        wsresult.Cells(7, 3).Value = cbmcount
+        wsresult.Cells(10, 3).Value = ekioskcount
+        wsresult.Cells(9, 3).Value = loskprcount
+        wsresult.Cells(8, 3).Value = lossmecount
+End Sub
+
+Sub ApplicationInExcludeVerihubs()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "D").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 9).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 15).Value
+            
+            If status = "N" Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("C14").Value = cbmcount
+        destsheet.Range("C17").Value = ekioskcount
+        destsheet.Range("C16").Value = loskprcount
+        destsheet.Range("C15").Value = lossmecount
+End Sub
+
+Sub TotalAlertAFM()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+            
+            If status <> "Reactivated" And IsError(cmcolumn) And IsError(cpcolumn) Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("F7").Value = cbmcount
+        destsheet.Range("F10").Value = ekioskcount
+        destsheet.Range("F9").Value = loskprcount
+        destsheet.Range("F8").Value = lossmecount
+        
+        destsheet.Range("C64").Value = cbmcount
+        destsheet.Range("C65").Value = ekioskcount
+        destsheet.Range("C67").Value = loskprcount
+        destsheet.Range("C66").Value = lossmecount
+        
+End Sub
+
+Sub TotalAlertExcludeVerihubs()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 15).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+            
+            If status <> "N" Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("D14").Value = cbmcount
+        destsheet.Range("D17").Value = ekioskcount
+        destsheet.Range("D16").Value = loskprcount
+        destsheet.Range("D15").Value = lossmecount
+        
+End Sub
+
+Sub TotalAlertAFMExcludeVerihubs()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 15).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+            
+            If status = "N" And react <> "Reactivated" And IsError(cmcolumn) And IsError(cpcolumn) Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("E14").Value = cbmcount
+        destsheet.Range("E17").Value = ekioskcount
+        destsheet.Range("E16").Value = loskprcount
+        destsheet.Range("E15").Value = lossmecount
+        
+        destsheet.Range("C72").Value = cbmcount
+        destsheet.Range("C73").Value = ekioskcount
+        destsheet.Range("C75").Value = loskprcount
+        destsheet.Range("C74").Value = lossmecount
+        
+End Sub
+
+Sub AutoDecline()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("RULE NO CASE")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "D").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 4).Value
+            product = sourcesheet.Cells(i, 5).Value
+            status = sourcesheet.Cells(i, 6).Value
+            
+            If status = "Decline" Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("D7").Value = cbmcount
+        destsheet.Range("D10").Value = ekioskcount
+        destsheet.Range("D9").Value = loskprcount
+        destsheet.Range("D8").Value = lossmecount
+End Sub
+
+Sub AFMConfirmFraud()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 19).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If status = "CONFIRMED_FRAUD_PERPETRATOR" And react <> "Reactivated" And IsError(cmcolumn) And IsError(cpcolumn) Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("C41").Value = cbmcount
+        destsheet.Range("C42").Value = ekioskcount
+        destsheet.Range("C44").Value = loskprcount
+        destsheet.Range("C43").Value = lossmecount
+        
+End Sub
+
+
+Sub AFMConfirmFraudVictim()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 19).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If status = "CONFIRMED_FRAUD_VICTIM" And react <> "Reactivated" And IsError(cmcolumn) And IsError(cpcolumn) Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("D41").Value = cbmcount
+        destsheet.Range("D42").Value = ekioskcount
+        destsheet.Range("D44").Value = loskprcount
+        destsheet.Range("D43").Value = lossmecount
+        
+End Sub
+
+
+
+Sub AFMConfirmCuspiciousDecline()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 19).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If status = "SUSPICIOUS_DECLINE" And react <> "Reactivated" And IsError(cmcolumn) And IsError(cpcolumn) Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("E41").Value = cbmcount
+        destsheet.Range("E42").Value = ekioskcount
+        destsheet.Range("E44").Value = loskprcount
+        destsheet.Range("E43").Value = lossmecount
+        
+End Sub
+
+
+Sub AFMNotFraud()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 19).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If status = "NOT_FRAUD" And react <> "Reactivated" And IsError(cmcolumn) And IsError(cpcolumn) Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("G41").Value = cbmcount
+        destsheet.Range("G42").Value = ekioskcount
+        destsheet.Range("G44").Value = loskprcount
+        destsheet.Range("G43").Value = lossmecount
+        
+End Sub
+
+
+Sub AFMConfirmFraudExcludeVerihubs()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 19).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            verihubs = sourcesheet.Cells(i, "O").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If status = "CONFIRMED_FRAUD_PERPETRATOR" And react <> "Reactivated" And IsError(cmcolumn) And IsError(cpcolumn) And verihubs = "N" Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("C52").Value = cbmcount
+        destsheet.Range("C53").Value = ekioskcount
+        destsheet.Range("C55").Value = loskprcount
+        destsheet.Range("C54").Value = lossmecount
+        
+End Sub
+
+
+Sub AFMConfirmFraudVictimExcludeVerihubs()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 19).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            verihubs = sourcesheet.Cells(i, "O").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If status = "CONFIRMED_FRAUD_VICTIM" And react <> "Reactivated" And IsError(cpcolumn) And IsError(cmcolumn) And verihubs = "N" Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("D52").Value = cbmcount
+        destsheet.Range("D53").Value = ekioskcount
+        destsheet.Range("D55").Value = loskprcount
+        destsheet.Range("D54").Value = lossmecount
+        
+End Sub
+
+
+
+Sub AFMConfirmCuspiciousDeclineExcludeVerihubs()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 19).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            verihubs = sourcesheet.Cells(i, "O").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If status = "SUSPICIOUS_DECLINE" And react <> "Reactivated" And IsError(cpcolumn) And IsError(cmcolumn) And verihubs = "N" Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("E52").Value = cbmcount
+        destsheet.Range("E53").Value = ekioskcount
+        destsheet.Range("E55").Value = loskprcount
+        destsheet.Range("E54").Value = lossmecount
+        
+End Sub
+
+
+Sub AFMNotFraudExcludeVerihubs()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 19).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            verihubs = sourcesheet.Cells(i, "O").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If status = "NOT_FRAUD" And react <> "Reactivated" And IsError(cpcolumn) And IsError(cmcolumn) And verihubs = "N" Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("G52").Value = cbmcount
+        destsheet.Range("G53").Value = ekioskcount
+        destsheet.Range("G55").Value = loskprcount
+        destsheet.Range("G54").Value = lossmecount
+        
+End Sub
+
+Sub FraudRateTotalFraud()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 19).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If status <> "NOT_FRAUD" And react <> "Reactivated" And IsError(cpcolumn) And IsError(cmcolumn) Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("D64").Value = cbmcount
+        destsheet.Range("D65").Value = ekioskcount
+        destsheet.Range("D67").Value = loskprcount
+        destsheet.Range("D66").Value = lossmecount
+        
+End Sub
+
+
+
+
+Sub FraudRateTotalFraudExcludeVerihubs()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 19).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            verihubs = sourcesheet.Cells(i, "O").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If status <> "NOT_FRAUD" And react <> "Reactivated" And IsError(cpcolumn) And IsError(cmcolumn) And verihubs = "N" Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case product
+                        Case "CBM"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "EKI"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "LOSKPR"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "LOSSME"
+                            lossmecount = lossmecount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("D72").Value = cbmcount
+        destsheet.Range("D73").Value = ekioskcount
+        destsheet.Range("D75").Value = loskprcount
+        destsheet.Range("D74").Value = lossmecount
+        
+End Sub
+
+Sub SLAAllChannel()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim cmcolumn As Variant
+    Dim product As Variant
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "CK").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+        For i = 2 To lastrow
+        
+            product = sourcesheet.Cells(i, 14).Value
+            react = sourcesheet.Cells(i, "CK").Value
+            reactdatetime = sourcesheet.Cells(i, "H").Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If product <> "Reactivated" And IsError(cpcolumn) And IsError(cmcolumn) Then
+                    
+                    Select Case react
+                        Case "a. 1 day"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "b. 1-2 days"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "c. 2-3 days"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "d. >3 days"
+                            lossmecount = lossmecount + 1
+                    End Select
+            End If
+        Next i
+        
+        destsheet.Range("C82").Value = cbmcount
+        destsheet.Range("C83").Value = ekioskcount
+        destsheet.Range("C84").Value = loskprcount
+        destsheet.Range("C85").Value = lossmecount
+        
+End Sub
+
+
+Sub SLAAllChannelExcludeVerihubs()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim cmcolumn As Variant
+    Dim product As Variant
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "CK").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+        For i = 2 To lastrow
+        
+            product = sourcesheet.Cells(i, 14).Value
+            react = sourcesheet.Cells(i, 89).Value
+            reactdatetime = sourcesheet.Cells(i, "H").Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            verihubs = sourcesheet.Cells(i, "O").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+            
+
+            If product <> "Reactivated" And IsError(cmcolumn) And IsError(cpcolumn) And verihubs = "N" And reactdatetime = "NULL" Then
+                    
+                    Select Case react
+                        Case "a. 1 day"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "b. 1-2 days"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "c. 2-3 days"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "d. >3 days"
+                            lossmecount = lossmecount + 1
+                    End Select
+            End If
+        Next i
+        
+        destsheet.Range("C88").Value = cbmcount
+        destsheet.Range("C89").Value = ekioskcount
+        destsheet.Range("C90").Value = loskprcount
+        destsheet.Range("C91").Value = lossmecount
+        
+End Sub
+
+Sub SLACBMChannel()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim cmcolumn As Variant
+    Dim product As Variant
+    Dim prod As Variant
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "CK").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+        For i = 2 To lastrow
+        
+            product = sourcesheet.Cells(i, 14).Value
+            react = sourcesheet.Cells(i, 89).Value
+            prod = sourcesheet.Cells(i, 10).Value
+            reactdatetime = sourcesheet.Cells(i, "H").Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If product <> "Reactivated" And IsError(cpcolumn) And IsError(cmcolumn) And prod = "CBM" Then
+                    
+                    Select Case react
+                        Case "a. 1 day"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "b. 1-2 days"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "c. 2-3 days"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "d. >3 days"
+                            lossmecount = lossmecount + 1
+                    End Select
+            End If
+        Next i
+        
+        destsheet.Range("C98").Value = cbmcount
+        destsheet.Range("C99").Value = ekioskcount
+        destsheet.Range("C100").Value = loskprcount
+        destsheet.Range("C101").Value = lossmecount
+        
+End Sub
+
+Sub SLACBMChannelExcVerihubs()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim cmcolumn As Variant
+    Dim product As Variant
+    Dim prod As Variant
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "CK").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+        For i = 2 To lastrow
+        
+            product = sourcesheet.Cells(i, 14).Value
+            react = sourcesheet.Cells(i, 89).Value
+            prod = sourcesheet.Cells(i, 10).Value
+            reactdatetime = sourcesheet.Cells(i, "H").Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            verihubs = sourcesheet.Cells(i, "O").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If product <> "Reactivated" And IsError(cmcolumn) And IsError(cpcolumn) And prod = "CBM" And verihubs = "N" And reactdatetime = "NULL" Then
+                    
+                    Select Case react
+                        Case "a. 1 day"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "b. 1-2 days"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "c. 2-3 days"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "d. >3 days"
+                            lossmecount = lossmecount + 1
+                    End Select
+            End If
+        Next i
+        
+        destsheet.Range("C105").Value = cbmcount
+        destsheet.Range("C106").Value = ekioskcount
+        destsheet.Range("C107").Value = loskprcount
+        destsheet.Range("C108").Value = lossmecount
+        
+End Sub
+
+Sub SLAEkioskhannel()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim cmcolumn As Variant
+    Dim product As Variant
+    Dim prod As Variant
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "CK").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+        For i = 2 To lastrow
+        
+            product = sourcesheet.Cells(i, 14).Value
+            react = sourcesheet.Cells(i, 89).Value
+            prod = sourcesheet.Cells(i, 10).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If product <> "Reactivated" And IsError(cmcolumn) And IsError(cpcolumn) And prod = "EKI" Then
+                    
+                    Select Case react
+                        Case "a. 1 day"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "b. 1-2 days"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "c. 2-3 days"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "d. >3 days"
+                            lossmecount = lossmecount + 1
+                    End Select
+            End If
+        Next i
+        
+        destsheet.Range("C112").Value = cbmcount
+        destsheet.Range("C113").Value = ekioskcount
+        destsheet.Range("C114").Value = loskprcount
+        destsheet.Range("C115").Value = lossmecount
+        
+End Sub
+
+Sub SLALOSMortgage()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim cmcolumn As Variant
+    Dim product As Variant
+    Dim prod As Variant
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "CL").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+        For i = 2 To lastrow
+        
+            product = sourcesheet.Cells(i, 14).Value
+            react = sourcesheet.Cells(i, 90).Value
+            prod = sourcesheet.Cells(i, 10).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If product <> "Reactivated" And IsError(cmcolumn) And IsError(cpcolumn) And prod = "LOSKPR" Then
+                    
+                    Select Case react
+                        Case "a. 1-2 days"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "b. 2-3 days"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "c. >3 days"
+                            loskprcount = loskprcount + 1
+                    End Select
+            End If
+        Next i
+        
+        destsheet.Range("C119").Value = cbmcount
+        destsheet.Range("C120").Value = ekioskcount
+        destsheet.Range("C121").Value = loskprcount
+End Sub
+
+
+Sub SLALOSSME()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim cmcolumn As Variant
+    Dim product As Variant
+    Dim prod As Variant
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "CL").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+        For i = 2 To lastrow
+        
+            product = sourcesheet.Cells(i, 14).Value
+            react = sourcesheet.Cells(i, 90).Value
+            prod = sourcesheet.Cells(i, 10).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If product <> "Reactivated" And IsError(cmcolumn) And IsError(cpcolumn) And prod = "LOSSME" Then
+                    
+                    Select Case react
+                        Case "a. 1-2 days"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "b. 2-3 days"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "c. >3 days"
+                            loskprcount = loskprcount + 1
+                    End Select
+            End If
+        Next i
+        
+        destsheet.Range("C125").Value = cbmcount
+        destsheet.Range("C126").Value = ekioskcount
+        destsheet.Range("C127").Value = loskprcount
+End Sub
