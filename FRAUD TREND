@@ -1,0 +1,509 @@
+Sub FRAUDTREND()
+    Call AFMFraudTypeCBM
+    Call AFMFraudTypeEKI
+    Call AFMFraudTypeLOSKPR
+    Call AFMFraudTypeLOSSME
+    Call AFMFraudLOB
+    Call AFMFraudOccupation
+    Call AFMFraudCITY
+    Call AFMFraudPROVINCE
+    Call AFMFraudHOUR
+    Call AFMFraudDAY
+    
+    MsgBox "Done Ya, Thank you!!!"
+End Sub
+
+Sub AFMFraudTypeCBM()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 20).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If product = "CBM" And react <> "Reactivated" And IsError(cpcolumn) And IsError(cmcolumn) Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case status
+                        Case "FIRST_PARTY_SUSPECTED"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "THIRD_PARTY_IDENTITY_THEFT"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "FIRST_PARTY_TRUE_NAME"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "OTHER"
+                            othercount = othercount + 1
+                            
+                        Case "FIRST_PARTY_ALTERED_NAME"
+                            alterdcount = alterdcount + 1
+                            
+                        Case "FIRST_PARTY_FICTITIOUS_ID"
+                            ficticount = ficticount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("T7").Value = cbmcount
+        destsheet.Range("T8").Value = ekioskcount
+        destsheet.Range("T9").Value = loskprcount
+        destsheet.Range("T10").Value = othercount
+        destsheet.Range("T11").Value = alterdcount
+        destsheet.Range("T12").Value = ficticount
+End Sub
+
+Sub AFMFraudTypeEKI()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 20).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If product = "EKI" And react <> "Reactivated" And IsError(cpcolumn) And IsError(cmcolumn) Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case status
+                        Case "FIRST_PARTY_SUSPECTED"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "THIRD_PARTY_IDENTITY_THEFT"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "FIRST_PARTY_TRUE_NAME"
+                            loskprcount = loskprcount + 1
+                        
+                        Case "OTHER"
+                            othercount = othercount + 1
+                            
+                        Case "FIRST_PARTY_ALTERED_NAME"
+                            alterdcount = alterdcount + 1
+                            
+                        Case "FIRST_PARTY_FICTITIOUS_ID"
+                            ficticount = ficticount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("W7").Value = cbmcount
+        destsheet.Range("W8").Value = ekioskcount
+        destsheet.Range("W9").Value = loskprcount
+        destsheet.Range("W10").Value = othercount
+        destsheet.Range("W11").Value = alterdcount
+        destsheet.Range("W12").Value = ficticount
+End Sub
+
+Sub AFMFraudTypeLOSKPR()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 20).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If product = "LOSKPR" And react <> "Reactivated" And IsError(cpcolumn) And IsError(cmcolumn) Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case status
+                        Case "FIRST_PARTY_SUSPECTED"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "THIRD_PARTY_IDENTITY_THEFT"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "FIRST_PARTY_TRUE_NAME"
+                            loskprcount = loskprcount + 1
+                        
+                        Case "OTHER"
+                            othercount = othercount + 1
+                            
+                        Case "FIRST_PARTY_ALTERED_NAME"
+                            alterdcount = alterdcount + 1
+                            
+                        Case "FIRST_PARTY_FICTITIOUS_ID"
+                            ficticount = ficticount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("U7").Value = cbmcount
+        destsheet.Range("U8").Value = ekioskcount
+        destsheet.Range("U9").Value = loskprcount
+        destsheet.Range("U10").Value = othercount
+        destsheet.Range("U11").Value = alterdcount
+        destsheet.Range("U12").Value = ficticount
+End Sub
+Sub AFMFraudTypeLOSSME()
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrow As Long
+    Dim caseid As Variant
+    Dim product As Variant
+    Dim status As Variant
+    Dim cmcolumn As Variant
+    Dim uniquecaseid As Object
+    
+        Set sourcesheet = ThisWorkbook.Sheets("APPLICATION")
+        Set destsheet = ThisWorkbook.Sheets("FDU - App")
+        
+        lastrow = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+            Dim cbmcount As Long
+            Dim ekioskcount As Long
+            Dim loskprcount As Long
+            Dim lossmecount As Long
+            
+                Set uniquecaseid = CreateObject("Scripting.Dictionary")
+            
+        For i = 2 To lastrow
+        
+            caseid = sourcesheet.Cells(i, 11).Value
+            product = sourcesheet.Cells(i, 10).Value
+            status = sourcesheet.Cells(i, 20).Value
+            react = sourcesheet.Cells(i, 14).Value
+            cmcolumn = sourcesheet.Cells(i, "CM").Value
+            cpcolumn = sourcesheet.Cells(i, "CP").Value
+
+            If product = "LOSSME" And react <> "Reactivated" And IsError(cpcolumn) And IsError(cmcolumn) Then
+            
+                If Not uniquecaseid.exists(caseid) Then
+                    uniquecaseid.Add caseid, 1
+                    
+                    Select Case status
+                        Case "FIRST_PARTY_SUSPECTED"
+                            cbmcount = cbmcount + 1
+                                                    
+                        Case "THIRD_PARTY_IDENTITY_THEFT"
+                            ekioskcount = ekioskcount + 1
+                            
+                        Case "FIRST_PARTY_TRUE_NAME"
+                            loskprcount = loskprcount + 1
+                            
+                        Case "OTHER"
+                            othercount = othercount + 1
+                            
+                        Case "FIRST_PARTY_ALTERED_NAME"
+                            alterdcount = alterdcount + 1
+                            
+                        Case "FIRST_PARTY_FICTITIOUS_ID"
+                            ficticount = ficticount + 1
+                    End Select
+                End If
+            End If
+        Next i
+        
+        destsheet.Range("V7").Value = cbmcount
+        destsheet.Range("V8").Value = ekioskcount
+        destsheet.Range("V9").Value = loskprcount
+        destsheet.Range("V10").Value = othercount
+        destsheet.Range("V11").Value = alterdcount
+        destsheet.Range("V12").Value = ficticount
+End Sub
+
+Sub AFMFraudLOB()
+    Dim wb As Workbook
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrowdest As Long
+    Dim lastrowmaster As Long
+    Dim i As Long, j As Long
+    Dim countreactivated As Long
+    Dim cmcolumn As Variant
+    
+        Set wb = ThisWorkbook
+        Set sourcesheet = wb.Sheets("APPLICATION")
+        Set destsheet = wb.Sheets("FDU - App")
+        
+        lastrowdest = destsheet.Cells(sourcesheet.Rows.Count, "S").End(xlUp).Row
+        lastrowmaster = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+    For i = 23 To lastrowdest
+        countreactivated = 0
+        
+    For j = 2 To lastrowmaster
+    
+    cmcolumn = sourcesheet.Cells(j, "CM").Value
+    cpcolumn = sourcesheet.Cells(j, "CP").Value
+    
+        If sourcesheet.Cells(j, "BM").Value = destsheet.Cells(i, "S").Value Then
+        If sourcesheet.Cells(j, "S").Value <> "NOT_FRAUD" And sourcesheet.Cells(j, "S").Value <> "NULL" And IsError(cmcolumn) And IsError(cpcolumn) And sourcesheet.Cells(j, "N").Value = "Not Reactivated" Then
+            countreactivated = countreactivated + 1
+        End If
+    End If
+    Next j
+    
+    destsheet.Cells(i, "T").Value = countreactivated
+    
+    
+    Next i
+    Range("T22:T" & lastrowdest).Sort key1:=Range("T22"), order1:=xlDescending, Header:=xlYes
+End Sub
+
+Sub AFMFraudOccupation()
+    Dim wb As Workbook
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrowdest As Long
+    Dim lastrowmaster As Long
+    Dim i As Long, j As Long
+    Dim countreactivated As Long
+    Dim cmcolumn As Variant
+    
+        Set wb = ThisWorkbook
+        Set sourcesheet = wb.Sheets("APPLICATION")
+        Set destsheet = wb.Sheets("FDU - App")
+        
+        lastrowdest = destsheet.Cells(sourcesheet.Rows.Count, "AB").End(xlUp).Row
+        lastrowmaster = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+    For i = 23 To lastrowdest
+        countreactivated = 0
+        
+    For j = 2 To lastrowmaster
+    
+    cmcolumn = sourcesheet.Cells(j, "CM").Value
+    cpcolumn = sourcesheet.Cells(j, "CP").Value
+    
+        If sourcesheet.Cells(j, "CN").Value = destsheet.Cells(i, "AB").Value Then
+        If sourcesheet.Cells(j, "S").Value <> "NOT_FRAUD" And sourcesheet.Cells(j, "S").Value <> "NULL" And IsError(cpcolumn) And IsError(cmcolumn) And sourcesheet.Cells(j, "N").Value = "Not Reactivated" Then
+            countreactivated = countreactivated + 1
+        End If
+    End If
+    Next j
+    
+    destsheet.Cells(i, "AC").Value = countreactivated
+    
+    Next i
+    Range("AC22:AC" & lastrowdest).Sort key1:=Range("AC22"), order1:=xlDescending, Header:=xlYes
+End Sub
+
+Sub AFMFraudCITY()
+    Dim wb As Workbook
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrowdest As Long
+    Dim lastrowmaster As Long
+    Dim i As Long, j As Long
+    Dim countreactivated As Long
+    Dim cmcolumn As Variant
+    
+        Set wb = ThisWorkbook
+        Set sourcesheet = wb.Sheets("APPLICATION")
+        Set destsheet = wb.Sheets("FDU - App")
+        
+        lastrowdest = destsheet.Cells(sourcesheet.Rows.Count, "AF").End(xlUp).Row
+        lastrowmaster = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+    For i = 23 To lastrowdest
+        countreactivated = 0
+        
+    For j = 2 To lastrowmaster
+    
+    cmcolumn = sourcesheet.Cells(j, "CM").Value
+    cpcolumn = sourcesheet.Cells(j, "CP").Value
+    
+        If sourcesheet.Cells(j, "AX").Value = destsheet.Cells(i, "AF").Value Then
+        If sourcesheet.Cells(j, "S").Value <> "NOT_FRAUD" And sourcesheet.Cells(j, "S").Value <> "NULL" And IsError(cpcolumn) And IsError(cmcolumn) And sourcesheet.Cells(j, "N").Value = "Not Reactivated" Then
+            countreactivated = countreactivated + 1
+        End If
+    End If
+    Next j
+    
+    destsheet.Cells(i, "AG").Value = countreactivated
+    
+    Next i
+Range("AG22:AG" & lastrowdest).Sort key1:=Range("AG22"), order1:=xlDescending, Header:=xlYes
+End Sub
+
+Sub AFMFraudPROVINCE()
+    Dim wb As Workbook
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrowdest As Long
+    Dim lastrowmaster As Long
+    Dim i As Long, j As Long
+    Dim countreactivated As Long
+    Dim cmcolumn As Variant
+    
+        Set wb = ThisWorkbook
+        Set sourcesheet = wb.Sheets("APPLICATION")
+        Set destsheet = wb.Sheets("FDU - App")
+        
+        lastrowdest = destsheet.Cells(sourcesheet.Rows.Count, "AJ").End(xlUp).Row
+        lastrowmaster = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+    For i = 23 To lastrowdest
+        countreactivated = 0
+        
+    For j = 2 To lastrowmaster
+    
+    cmcolumn = sourcesheet.Cells(j, "CM").Value
+    cpcolumn = sourcesheet.Cells(j, "CP").Value
+    
+        If sourcesheet.Cells(j, "AY").Value = destsheet.Cells(i, "AJ").Value Then
+        If sourcesheet.Cells(j, "S").Value <> "NOT_FRAUD" And sourcesheet.Cells(j, "S").Value <> "NULL" And IsError(cpcolumn) And IsError(cmcolumn) And sourcesheet.Cells(j, "N").Value = "Not Reactivated" Then
+            countreactivated = countreactivated + 1
+        End If
+    End If
+    Next j
+    
+    destsheet.Cells(i, "AK").Value = countreactivated
+    
+    Next i
+    Range("AK22:AK" & lastrowdest).Sort key1:=Range("AK22"), order1:=xlDescending, Header:=xlYes
+End Sub
+
+Sub AFMFraudHOUR()
+    Dim wb As Workbook
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrowdest As Long
+    Dim lastrowmaster As Long
+    Dim i As Long, j As Long
+    Dim countreactivated As Long
+    Dim cmcolumn As Variant
+    
+        Set wb = ThisWorkbook
+        Set sourcesheet = wb.Sheets("APPLICATION")
+        Set destsheet = wb.Sheets("FDU - App")
+        
+        lastrowdest = destsheet.Cells(sourcesheet.Rows.Count, "AN").End(xlUp).Row
+        lastrowmaster = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+    For i = 23 To 47
+        countreactivated = 0
+        
+    For j = 2 To lastrowmaster
+    
+    cmcolumn = sourcesheet.Cells(j, "CM").Value
+    cpcolumn = sourcesheet.Cells(j, "CP").Value
+    
+        If sourcesheet.Cells(j, "D").Value = destsheet.Cells(i, "AN").Value Then
+        If sourcesheet.Cells(j, "S").Value <> "NULL" And sourcesheet.Cells(j, "N").Value = "Not Reactivated" And IsError(cpcolumn) And IsError(cmcolumn) Then
+            countreactivated = countreactivated + 1
+        End If
+    End If
+    Next j
+    
+    destsheet.Cells(i, "AO").Value = countreactivated
+    Next i
+End Sub
+
+Sub AFMFraudDAY()
+    Dim wb As Workbook
+    Dim sourcesheet As Worksheet
+    Dim destsheet As Worksheet
+    Dim lastrowdest As Long
+    Dim lastrowmaster As Long
+    Dim i As Long, j As Long
+    Dim countreactivated As Long
+    Dim cmcolumn As Variant
+    
+        Set wb = ThisWorkbook
+        Set sourcesheet = wb.Sheets("APPLICATION")
+        Set destsheet = wb.Sheets("FDU - App")
+        
+        lastrowdest = destsheet.Cells(sourcesheet.Rows.Count, "AR").End(xlUp).Row
+        lastrowmaster = sourcesheet.Cells(sourcesheet.Rows.Count, "K").End(xlUp).Row
+        
+    For i = 23 To 29
+        countreactivated = 0
+        
+    For j = 2 To lastrowmaster
+    
+    cmcolumn = sourcesheet.Cells(j, "CM").Value
+    cpcolumn = sourcesheet.Cells(j, "CP").Value
+    
+        If sourcesheet.Cells(j, "F").Value = destsheet.Cells(i, "AR").Value Then
+        If sourcesheet.Cells(j, "S").Value <> "NULL" And sourcesheet.Cells(j, "N").Value = "Not Reactivated" And IsError(cpcolumn) And IsError(cmcolumn) Then
+            countreactivated = countreactivated + 1
+        End If
+    End If
+    Next j
+    
+    destsheet.Cells(i, "AS").Value = countreactivated
+    Next i
+End Sub
+
+
+
